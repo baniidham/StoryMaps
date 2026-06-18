@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Latency from Malaysia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            width: 100%;
+            max-width: 900px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: #f5f5f5;
+            border-color: #bbb;
+        }
+        
+        button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+        }
+        
+        canvas {
+            max-height: 500px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 24px;
+        }
+        
+        .stat-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .legend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #eee;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .legend-box {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Network Latency from Malaysia</h1>
+        <p class="subtitle">Latency measurements in milliseconds (ms) to various cities</p>
+        
+        <div class="controls">
+            <button id="sortAsc" class="active">Sort ascending</button>
+            <button id="sortDesc">Sort descending</button>
+        </div>
+        
+        <div class="chart-wrapper">
+            <canvas id="latencyChart"></canvas>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box" style="background-color: #80BBAD;"></div>
+                <span>Low latency (fast)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="background-color: #D2785A;"></div>
+                <span>High latency (slow)</span>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Fastest</div>
+                <div class="stat-value" id="fastest">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Slowest</div>
+                <div class="stat-value" id="slowest">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Average</div>
+                <div class="stat-value" id="average">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Cities</div>
+                <div class="stat-value" id="count">—</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <script>
+        const latencyData = {
+            Singapore: 9.484,
+            Jakarta: 19.105,
+            Bangkok: 38.606,
+            'Ho Chi Minh': 39.983,
+            Manila: 49.961,
+            Shanghai: 73.365,
+            Tokyo: 76.174,
+            Seoul: 95.166,
+            Sydney: 100.757,
+            'New Delhi': 123.738,
+            London: 159.773,
+            Paris: 162.096,
+            'San Francisco': 177.238,
+            'New York': 252.313
+        };
+
+        const LOW_LATENCY_COLOR = '#80BBAD';
+        const HIGH_LATENCY_COLOR = '#D2785A';
+        const maxLatency = Math.max(...Object.values(latencyData));
+
+        let currentOrder = Object.entries(latencyData);
+        let chart = null;
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function interpolateColor(color1, color2, factor) {
+            const rgb1 = hexToRgb(color1);
+            const rgb2 = hexToRgb(color2);
+            const r = Math.round(rgb1.r + (rgb2.r - rgb1.r) * factor);
+            const g = Math.round(rgb1.g + (rgb2.g - rgb1.g) * factor);
+            const b = Math.round(rgb1.b + (rgb2.b - rgb1.b) * factor);
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function getColorForLatency(latency) {
+            const factor = latency / maxLatency;
+            return interpolateColor(LOW_LATENCY_COLOR, HIGH_LATENCY_COLOR, factor);
+        }
+
+        function createChart() {
+            const colors = currentOrder.map(([_, latency]) => getColorForLatency(latency));
+            
+            const ctx = document.getElementById('latencyChart').getContext('2d');
+            
+            if (chart) {
+                chart.destroy();
+            }
+            
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: currentOrder.map(([city]) => city),
+                    datasets: [{
+                        label: 'Latency (ms)',
+                        data: currentOrder.map(([_, latency]) => latency.toFixed(3)),
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.x.toFixed(3) + ' ms';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' ms';
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateStats() {
+            const values = Object.values(latencyData);
+            const min = Math.min(...values);
+            const max = Math.max(...values);
+            const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2);
+            
+            const minCity = Object.entries(latencyData).find(([_, v]) => v === min)[0];
+            const maxCity = Object.entries(latencyData).find(([_, v]) => v === max)[0];
+            
+            document.getElementById('fastest').textContent = `${min.toFixed(3)} ms (${minCity})`;
+            document.getElementById('slowest').textContent = `${max.toFixed(3)} ms (${maxCity})`;
+            document.getElementById('average').textContent = `${avg} ms`;
+            document.getElementById('count').textContent = Object.keys(latencyData).length;
+        }
+
+        function updateButtons(active) {
+            document.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            active.classList.add('active');
+        }
+
+        document.getElementById('sortAsc').addEventListener('click', function() {
+            currentOrder = [...currentOrder].sort((a, b) => a[1] - b[1]);
+            createChart();
+            updateButtons(this);
+        });
+
+        document.getElementById('sortDesc').addEventListener('click', function() {
+            currentOrder = [...currentOrder].sort((a, b) => b[1] - a[1]);
+            createChart();
+            updateButtons(this);
+        });
+
+        createChart();
+        updateStats();
+    </script>
+</body>
+</html>
