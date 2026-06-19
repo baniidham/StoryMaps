@@ -178,7 +178,10 @@
                     plugins: {
                         legend: {
                             display: true,
-                            position: 'top'
+                            position: 'top',
+                            labels: {
+                                color: 'white'
+                            }
                         },
                         tooltip: {
                             backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -196,6 +199,7 @@
                         x: {
                             beginAtZero: true,
                             ticks: {
+                                color: 'white',
                                 callback: function(value) {
                                     return value + ' ms';
                                 }
@@ -205,6 +209,9 @@
                             }
                         },
                         y: {
+                            ticks: {
+                                color: 'white'
+                            },
                             grid: {
                                 display: false
                             }
