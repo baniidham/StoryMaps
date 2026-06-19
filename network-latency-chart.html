@@ -13,7 +13,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #435254;
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -22,7 +22,7 @@
         }
         
         .container {
-            background: white;
+            background: #435254;
             border-radius: 12px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             padding: 30px;
@@ -33,42 +33,13 @@
         h1 {
             font-size: 24px;
             margin-bottom: 8px;
-            color: #333;
+            color: white;
         }
         
         .subtitle {
             font-size: 14px;
-            color: #666;
-            margin-bottom: 24px;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-        
-        button {
-            padding: 10px 16px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        button:hover {
-            background: #f5f5f5;
-            border-color: #bbb;
-        }
-        
-        button.active {
-            background: #667eea;
             color: white;
-            border-color: #667eea;
+            margin-bottom: 24px;
         }
         
         .chart-wrapper {
@@ -82,34 +53,6 @@
             max-height: 500px;
         }
         
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 24px;
-        }
-        
-        .stat-card {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            text-align: center;
-        }
-        
-        .stat-label {
-            font-size: 12px;
-            color: #999;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        
-        .stat-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: #667eea;
-        }
-
         .legend {
             display: flex;
             align-items: center;
@@ -117,7 +60,7 @@
             gap: 40px;
             margin-top: 24px;
             padding-top: 24px;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .legend-item {
@@ -125,13 +68,14 @@
             align-items: center;
             gap: 10px;
             font-size: 13px;
+            color: white;
         }
 
         .legend-box {
             width: 24px;
             height: 24px;
             border-radius: 4px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
@@ -139,11 +83,6 @@
     <div class="container">
         <h1>Network Latency from Malaysia</h1>
         <p class="subtitle">Latency measurements in milliseconds (ms) to various cities</p>
-        
-        <div class="controls">
-            <button id="sortAsc" class="active">Sort ascending</button>
-            <button id="sortDesc">Sort descending</button>
-        </div>
         
         <div class="chart-wrapper">
             <canvas id="latencyChart"></canvas>
@@ -157,25 +96,6 @@
             <div class="legend-item">
                 <div class="legend-box" style="background-color: #D2785A;"></div>
                 <span>High latency (slow)</span>
-            </div>
-        </div>
-        
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-label">Fastest</div>
-                <div class="stat-value" id="fastest">—</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Slowest</div>
-                <div class="stat-value" id="slowest">—</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Average</div>
-                <div class="stat-value" id="average">—</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Cities</div>
-                <div class="stat-value" id="count">—</div>
             </div>
         </div>
     </div>
@@ -294,40 +214,7 @@
             });
         }
 
-        function updateStats() {
-            const values = Object.values(latencyData);
-            const min = Math.min(...values);
-            const max = Math.max(...values);
-            const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2);
-            
-            const minCity = Object.entries(latencyData).find(([_, v]) => v === min)[0];
-            const maxCity = Object.entries(latencyData).find(([_, v]) => v === max)[0];
-            
-            document.getElementById('fastest').textContent = `${min.toFixed(3)} ms (${minCity})`;
-            document.getElementById('slowest').textContent = `${max.toFixed(3)} ms (${maxCity})`;
-            document.getElementById('average').textContent = `${avg} ms`;
-            document.getElementById('count').textContent = Object.keys(latencyData).length;
-        }
-
-        function updateButtons(active) {
-            document.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-            active.classList.add('active');
-        }
-
-        document.getElementById('sortAsc').addEventListener('click', function() {
-            currentOrder = [...currentOrder].sort((a, b) => a[1] - b[1]);
-            createChart();
-            updateButtons(this);
-        });
-
-        document.getElementById('sortDesc').addEventListener('click', function() {
-            currentOrder = [...currentOrder].sort((a, b) => b[1] - a[1]);
-            createChart();
-            updateButtons(this);
-        });
-
         createChart();
-        updateStats();
     </script>
 </body>
 </html>
