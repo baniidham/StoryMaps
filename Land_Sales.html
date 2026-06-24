@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Land Sales</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #7a9fa8 0%, #6b8f9a 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e8eef2;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafb;
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #fafbfc;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f0f3f6;
+        }
+
+        tbody tr:hover {
+            background-color: #e8eef2 !important;
+        }
+
+        .sn-cell {
+            font-weight: 600;
+            color: #7a9fa8;
+            text-align: center;
+            width: 60px;
+        }
+
+        .date-cell {
+            font-weight: 500;
+            color: #555;
+            width: 90px;
+        }
+
+        .location-cell {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .number-cell {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            color: #555;
+        }
+
+        .price-usd {
+            color: #7a9fa8;
+            font-weight: 600;
+        }
+
+        .price-psm {
+            color: #7a9fa8;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            .table-wrapper {
+                border-radius: 6px;
+            }
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Land Area (sqm)</th>
+                        <th>Price (USD)</th>
+                        <th>Price (USD psm)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="sn-cell">1</td>
+                        <td class="date-cell">Nov-23</td>
+                        <td class="location-cell">Nusa Cemerlang Industrial Park</td>
+                        <td class="number-cell">244,026</td>
+                        <td class="number-cell price-usd">66,369,993</td>
+                        <td class="number-cell price-psm">272</td>
+                    </tr>
+                    <tr>
+                        <td class="sn-cell">2</td>
+                        <td class="date-cell">Nov-23</td>
+                        <td class="location-cell">Nusa Cemerlang Industrial Park</td>
+                        <td class="number-cell">90,650</td>
+                        <td class="number-cell price-usd">24,642,626</td>
+                        <td class="number-cell price-psm">272</td>
+                    </tr>
+                    <tr>
+                        <td class="sn-cell">3</td>
+                        <td class="date-cell">Nov-23</td>
+                        <td class="location-cell">Nusa Cemerlang Industrial Park</td>
+                        <td class="number-cell">82,556</td>
+                        <td class="number-cell price-usd">23,374,906</td>
+                        <td class="number-cell price-psm">283</td>
+                    </tr>
+                    <tr>
+                        <td class="sn-cell">4</td>
+                        <td class="date-cell">Dec-22</td>
+                        <td class="location-cell">Persiaran Teknologi Perintis</td>
+                        <td class="number-cell">41,290</td>
+                        <td class="number-cell price-usd">13,108,712</td>
+                        <td class="number-cell price-psm">317</td>
+                    </tr>
+                    <tr>
+                        <td class="sn-cell">5</td>
+                        <td class="date-cell">Oct-22</td>
+                        <td class="location-cell">Persiaran Bioteknologi</td>
+                        <td class="number-cell">102,680</td>
+                        <td class="number-cell price-usd">20,504,017</td>
+                        <td class="number-cell price-psm">200</td>
+                    </tr>
+                    <tr>
+                        <td class="sn-cell">6</td>
+                        <td class="date-cell">Aug-21</td>
+                        <td class="location-cell">Lot PTD 5224 Nusajaya</td>
+                        <td class="number-cell">50,586</td>
+                        <td class="number-cell price-usd">16,465,212</td>
+                        <td class="number-cell price-psm">325</td>
+                    </tr>
+                    <tr>
+                        <td class="sn-cell">7</td>
+                        <td class="date-cell">Jul-21</td>
+                        <td class="location-cell">Gelang Patah</td>
+                        <td class="number-cell">11,626</td>
+                        <td class="number-cell price-usd">2,259,974</td>
+                        <td class="number-cell price-psm">194</td>
+                    </tr>
+                    <tr>
+                        <td class="sn-cell">8</td>
+                        <td class="date-cell">Jun-20</td>
+                        <td class="location-cell">Lebuh Kota Iskandar</td>
+                        <td class="number-cell">125,857</td>
+                        <td class="number-cell price-usd">14,094,913</td>
+                        <td class="number-cell price-psm">112</td>
+                    </tr>
+                    <tr>
+                        <td class="sn-cell">9</td>
+                        <td class="date-cell">Apr-19</td>
+                        <td class="location-cell">Nusajaya</td>
+                        <td class="number-cell">12,586</td>
+                        <td class="number-cell price-usd">2,547,609</td>
+                        <td class="number-cell price-psm">202</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
