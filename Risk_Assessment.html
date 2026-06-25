@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #7a9fa8 0%, #6b8f9a 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        th:first-child {
+            width: 60px;
+            text-align: center;
+        }
+
+        th:last-child {
+            width: 120px;
+            text-align: center;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #e8eef2;
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafb;
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #fafbfc;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f0f3f6;
+        }
+
+        tbody tr:hover {
+            background-color: #e8eef2 !important;
+        }
+
+        .number-cell {
+            font-weight: 600;
+            color: #7a9fa8;
+            text-align: center;
+            width: 60px;
+        }
+
+        .parameter-cell {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 180px;
+        }
+
+        .commentary-cell {
+            color: #2c3e50;
+        }
+
+        .bullet-points {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bullet-points li {
+            padding-left: 20px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .bullet-points li:last-child {
+            margin-bottom: 0;
+        }
+
+        .bullet-points li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #00b8a9;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .risk-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .risk-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .risk-high {
+            background-color: #d97b7b;
+        }
+
+        .risk-medium {
+            background-color: #d4b85c;
+        }
+
+        .risk-low {
+            background-color: #b8d4a8;
+        }
+
+        @media (max-width: 1024px) {
+            th, td {
+                padding: 16px;
+                font-size: 13px;
+            }
+
+            .parameter-cell {
+                width: 140px;
+            }
+
+            .bullet-points li {
+                margin-bottom: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            .parameter-cell {
+                width: 110px;
+            }
+
+            .bullet-points li {
+                padding-left: 18px;
+                margin-bottom: 6px;
+                font-size: 12px;
+            }
+
+            .risk-dot {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .legend-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .legend-items {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-label {
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Parameter</th>
+                        <th>Commentary</th>
+                        <th>Risk Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number-cell">1.</td>
+                        <td class="parameter-cell">Financial Risk</td>
+                        <td class="commentary-cell">
+                            <ul class="bullet-points">
+                                <li>As of June 2023, the firm's total liabilities were approximately USD194 billion. Of which, approximately USD14.9 billion were due within 12 months.</li>
+                                <li>In addition, sales have continued to decline, with a reported plunge of 85% in contracted sales earlier in February.</li>
+                            </ul>
+                        </td>
+                        <td class="risk-indicator">
+                            <div class="risk-dot risk-high"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">2.</td>
+                        <td class="parameter-cell">Credit Risk</td>
+                        <td class="commentary-cell">
+                            <ul class="bullet-points">
+                                <li>In August 2023, ratings agency Moody had downgraded its original corporate family rating ("CFR") from B1 to Caa1, citing heightened liquidity and refinancing risk following the firm's missed bond payments. This was further downgraded 3 levels to Ca by end of August 2023.</li>
+                                <li>A rating of Ca indicates a firm highly vulnerable to default, with little prospect for recovery.</li>
+                                <li>In October 2023, Country Garden had defaulted on approximately USD11 billion worth of offshore bonds, and had concurrently extended repayments on its onshore notes.</li>
+                            </ul>
+                        </td>
+                        <td class="risk-indicator">
+                            <div class="risk-dot risk-high"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">3.</td>
+                        <td class="parameter-cell">Project Risk</td>
+                        <td class="commentary-cell">
+                            <ul class="bullet-points">
+                                <li>Despite worsening financial challenges, Country Garden, along with its joint ventures had delivered over 600,000 housing units across 249 cities globally in 2023.</li>
+                                <li>Discussing the firm's trajectory in March 2023, Chairperson Yang committed to either closing or suspending all of its side businesses, except for its contract construction business, citing its asset-light and high-margin nature.</li>
+                                <li>In February 2024, Country Garden announced that over 30 of its projects had been listed by Chinese local governments as suitable for financing support.</li>
+                            </ul>
+                        </td>
+                        <td class="risk-indicator">
+                            <div class="risk-dot risk-medium"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">4.</td>
+                        <td class="parameter-cell">Management Risk</td>
+                        <td class="commentary-cell">
+                            <ul class="bullet-points">
+                                <li>There has not been widespread reports of specific management concerns beyond the firm's overall financial situation.</li>
+                            </ul>
+                        </td>
+                        <td class="risk-indicator">
+                            <div class="risk-dot risk-medium"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Risk Level Legend</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-dot risk-low"></div>
+                    <div class="legend-label">Low Risk</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot risk-medium"></div>
+                    <div class="legend-label">Moderate Risk</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot risk-high"></div>
+                    <div class="legend-label">High Risk</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
