@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incentives & Policy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #7a9fa8 0%, #6b8f9a 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        th:first-child {
+            width: 60px;
+            text-align: center;
+        }
+
+        th:last-child {
+            width: 140px;
+            text-align: center;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #e8eef2;
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafb;
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #fafbfc;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f0f3f6;
+        }
+
+        tbody tr:hover {
+            background-color: #e8eef2 !important;
+        }
+
+        .number-cell {
+            font-weight: 600;
+            color: #7a9fa8;
+            text-align: center;
+            width: 60px;
+        }
+
+        .type-cell {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 100px;
+        }
+
+        .policy-cell {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 200px;
+        }
+
+        .benefit-cell {
+            color: #2c3e50;
+        }
+
+        .benefit-note {
+            font-size: 12px;
+            color: #888;
+            font-style: italic;
+            margin-top: 8px;
+        }
+
+        .bullet-points {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bullet-points li {
+            padding-left: 20px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .bullet-points li:last-child {
+            margin-bottom: 0;
+        }
+
+        .bullet-points li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #00b8a9;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .impact-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .impact-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .impact-high {
+            background-color: #4db8a8;
+        }
+
+        .impact-moderate {
+            background-color: #d4b85c;
+        }
+
+        .impact-low {
+            background-color: #d97b7b;
+        }
+
+        @media (max-width: 1024px) {
+            th, td {
+                padding: 16px;
+                font-size: 13px;
+            }
+
+            .policy-cell {
+                width: 160px;
+            }
+
+            .bullet-points li {
+                margin-bottom: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            .policy-cell {
+                width: 130px;
+            }
+
+            .bullet-points li {
+                padding-left: 18px;
+                margin-bottom: 6px;
+                font-size: 12px;
+            }
+
+            .impact-dot {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .legend-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .legend-items {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-label {
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>Relevant Incentives/Policy</th>
+                        <th>Benefit Type</th>
+                        <th>Impact on Location Decision Making</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number-cell">1.</td>
+                        <td class="type-cell" rowspan="3">Fiscal</td>
+                        <td class="policy-cell">Digital Ecosystem Acceleration ("DESAC") – Digital Infrastructure Provider</td>
+                        <td class="benefit-cell">
+                            <ul class="bullet-points">
+                                <li>Investment Tax Credit of 100% on capital expenditure that could offset up to 100% of statutory income for up to 10 years</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-high"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">2.</td>
+                        <td class="policy-cell">Economic Recovery Plan ("PENJANA")</td>
+                        <td class="benefit-cell">
+                            <ul class="bullet-points">
+                                <li>Income tax rate of 0% to 10% for a period of up to 10 years</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-high"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">3.</td>
+                        <td class="policy-cell">Accelerated Capital Allowance ("ACA") – ICT Service</td>
+                        <td class="benefit-cell">
+                            <ul class="bullet-points">
+                                <li>Initial allowance of 40% and an annual allowance of 20% for expenditure incurred in acquiring computers and ICT assets</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-high"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">4.</td>
+                        <td class="type-cell" rowspan="4">Fiscal</td>
+                        <td class="policy-cell">Malaysia Digital Status – Tech Enabler</td>
+                        <td class="benefit-cell">
+                            <ul class="bullet-points">
+                                <li>Grant of 30-50% of total project cost or up to RM1 Million whichever is lower</li>
+                            </ul>
+                            <div class="benefit-note">* Incentives are assessed and granted on a case-by-case basis</div>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-moderate"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">5.</td>
+                        <td class="policy-cell">Green Investment Tax Allowance ("ITA")</td>
+                        <td class="benefit-cell">
+                            <ul class="bullet-points">
+                                <li>ITA of 100% on qualifying capital expenditure incurred by green technology projects for 3 years from the data of the first qualifying CAPEX incurred. This can be offset against 70% of statutory income in the year of assessment.</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-low"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">6.</td>
+                        <td class="policy-cell">Green Investment Tax Exemption ("ITE")</td>
+                        <td class="benefit-cell">
+                            <ul class="bullet-points">
+                                <li>ITE of 70% on statutory income for qualifying green services</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-low"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">7.</td>
+                        <td class="policy-cell">Solar Leasing Investment Tax Exemption ("ITE")</td>
+                        <td class="benefit-cell">
+                            <ul class="bullet-points">
+                                <li>ITE of 70% on statutory income for solar leasing activities for a period of up to 10 years of assessment</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-low"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">8.</td>
+                        <td class="type-cell">Non-Fiscal</td>
+                        <td class="policy-cell">Malaysia Digital Status – Tech Enabler</td>
+                        <td class="benefit-cell">
+                            <ul class="bullet-points">
+                                <li>Foreign equity restriction exemptions</li>
+                                <li>Allowance to employ foreign knowledge workers</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-moderate"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Impact on Location Decision Making</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-dot impact-high"></div>
+                    <div class="legend-label">High Impact</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot impact-moderate"></div>
+                    <div class="legend-label">Moderate Impact</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot impact-low"></div>
+                    <div class="legend-label">Low Impact</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

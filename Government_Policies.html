@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Policies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #7a9fa8 0%, #6b8f9a 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        th:first-child {
+            width: 60px;
+            text-align: center;
+        }
+
+        th:last-child {
+            width: 120px;
+            text-align: center;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #e8eef2;
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafb;
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #fafbfc;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f0f3f6;
+        }
+
+        tbody tr:hover {
+            background-color: #e8eef2 !important;
+        }
+
+        .number-cell {
+            font-weight: 600;
+            color: #7a9fa8;
+            text-align: center;
+            width: 60px;
+        }
+
+        .policy-cell {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 250px;
+        }
+
+        .details-cell {
+            color: #2c3e50;
+        }
+
+        .bullet-points {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bullet-points li {
+            padding-left: 20px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .bullet-points li:last-child {
+            margin-bottom: 0;
+        }
+
+        .bullet-points li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #00b8a9;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .impact-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .impact-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .impact-high {
+            background-color: #4db8a8;
+        }
+
+        .impact-moderate {
+            background-color: #d4b85c;
+        }
+
+        .impact-low {
+            background-color: #d97b7b;
+        }
+
+        @media (max-width: 1024px) {
+            th, td {
+                padding: 16px;
+                font-size: 13px;
+            }
+
+            .policy-cell {
+                width: 200px;
+            }
+
+            .bullet-points li {
+                margin-bottom: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            .policy-cell {
+                width: 150px;
+            }
+
+            .bullet-points li {
+                padding-left: 18px;
+                margin-bottom: 6px;
+                font-size: 12px;
+            }
+
+            .impact-dot {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .legend {
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .legend-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .legend-items {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-label {
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Policy</th>
+                        <th>Key Details</th>
+                        <th>Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number-cell">1.</td>
+                        <td class="policy-cell">MyGovCloud</td>
+                        <td class="details-cell">
+                            <ul class="bullet-points">
+                                <li>MyGovCloud is an ongoing initiative that aims to upgrade the services of the Public Sector Data Center ("PDSA") to cloud computing solutions supported by a hybrid cloud infrastructure</li>
+                                <li>The government's active promotion of the adoption of cloud services is likely to encourage businesses to embrace cloud technologies</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-high"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">2.</td>
+                        <td class="policy-cell">Malaysia Digital Economy Blueprint ("MyDIGITAL")</td>
+                        <td class="details-cell">
+                            <ul class="bullet-points">
+                                <li>MyDIGITAL Blueprint aims to transform Malaysia into a digital nation by 2030; of which, data center development is a key pillar to this initiative</li>
+                                <li>One of the objectives was to drive transformation in the public sector, with a target of achieving 80% utilisation of cloud computing storage in 2023</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-high"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">3.</td>
+                        <td class="policy-cell">New Industrial Master Plan 2030 ("NIMP 2023")</td>
+                        <td class="details-cell">
+                            <ul class="bullet-points">
+                                <li>The NIMP 2023 provides a national integrated plan for resilient industrial development until 2030. Among the sectors covered in the NIMP 2030 is the ICT sector for which digital infrastructure such as data centers fall under.</li>
+                                <li>Through the Master Plan, the objective is to develop an ecosystem to drive high value-added activities in Malaysia through the enabling of a favorable environment for innovation</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-high"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">4.</td>
+                        <td class="policy-cell">National Energy Transition Roadmap/ Smart Grid Initiative</td>
+                        <td class="details-cell">
+                            <ul class="bullet-points">
+                                <li>Malaysia has initiated the adoption of smart grid technologies, encompassing smart meters, advanced grid monitoring and control systems, and robust cybersecurity measures which aligns with international standards</li>
+                                <li>The smart grid aims to drive the increase the proportion of renewable energy to 31% in 2025, and 40% in 2035</li>
+                                <li>This goes towards reducing concerns regarding sustainable power scalability to meet the demands of hyperscalers and providers</li>
+                            </ul>
+                        </td>
+                        <td class="impact-indicator">
+                            <div class="impact-dot impact-moderate"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Impact on Location Decision Making</div>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-dot impact-high"></div>
+                    <div class="legend-label">High Impact</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot impact-moderate"></div>
+                    <div class="legend-label">Moderate Impact</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot impact-low"></div>
+                    <div class="legend-label">Low Impact</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
