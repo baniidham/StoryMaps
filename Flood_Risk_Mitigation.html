@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood Risk Mitigation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .table-wrapper {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(135deg, #7a9fa8 0%, #6b8f9a 100%);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        th:first-child {
+            width: 100px;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid #e8eef2;
+            font-size: 14px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        tbody tr:hover {
+            background-color: #f8fafb;
+            transition: background-color 0.2s ease;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #fafbfc;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f0f3f6;
+        }
+
+        tbody tr:hover {
+            background-color: #e8eef2 !important;
+        }
+
+        .number-cell {
+            font-weight: 600;
+            color: #7a9fa8;
+            text-align: center;
+            width: 80px;
+        }
+
+        .measure-cell {
+            font-weight: 600;
+            color: #2c3e50;
+            width: 200px;
+        }
+
+        .details-cell {
+            color: #2c3e50;
+        }
+
+        .bullet-points {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bullet-points li {
+            padding-left: 20px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .bullet-points li:last-child {
+            margin-bottom: 0;
+        }
+
+        .bullet-points li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #00b8a9;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        @media (max-width: 1024px) {
+            th, td {
+                padding: 16px;
+                font-size: 13px;
+            }
+
+            .measure-cell {
+                width: 160px;
+            }
+
+            .bullet-points li {
+                margin-bottom: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            th, td {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            .measure-cell {
+                width: 130px;
+            }
+
+            .bullet-points li {
+                padding-left: 18px;
+                margin-bottom: 6px;
+                font-size: 12px;
+            }
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S. No.</th>
+                        <th>Measure</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number-cell">1.</td>
+                        <td class="measure-cell">Flood Barriers</td>
+                        <td class="details-cell">
+                            <ul class="bullet-points">
+                                <li>Typical approaches include constructing levees, walls or embankments around the site in order to prevent flood water from entering the site.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">2.</td>
+                        <td class="measure-cell">Floodproofing & Waterproofing</td>
+                        <td class="details-cell">
+                            <ul class="bullet-points">
+                                <li>Elevating critical equipment and electrical components above the anticipated flood level can minimize damage.</li>
+                                <li>Sealing doors, windows, and other openings can prevent water ingress.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">3.</td>
+                        <td class="measure-cell">Early Warning Systems</td>
+                        <td class="details-cell">
+                            <ul class="bullet-points">
+                                <li>Implementing real-time flood monitoring and warning systems can provide time to activate preventative measures.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="number-cell">4.</td>
+                        <td class="measure-cell">High ground level</td>
+                        <td class="details-cell">
+                            <ul class="bullet-points">
+                                <li>Johor specific data centres do not provide the ground level details. However, NTT's data centre facility located in Cyberjaya has a high ground level of 24m above sea level to ensure flood risks are mitigated.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
